@@ -55,6 +55,7 @@ class ClippedView @JvmOverloads constructor(
         // drawQuickRejectExample(canvas)
     }
 
+    //Function for Clipped Rectangle Properties
     private fun drawClippedRectangle(canvas: Canvas) {
 
         //Drawing a clipped Rectangle
@@ -89,6 +90,20 @@ class ClippedView @JvmOverloads constructor(
     }
 
     private fun drawBackAndUnclippedRectangle(canvas: Canvas) {
+        //Drawing the Background for Canvas
+        canvas.drawColor(Color.GRAY)
+
+        //Saving the Canvas
+        canvas.save()
+
+        //Setting position for drawing the Clipped Rectangle
+        canvas.translate(columnOne, rowOne)
+
+        //Draw the Clipped Rectangle with Properties defined in *drawClippedRectangle()*
+        drawClippedRectangle(canvas)
+
+        //Restore the state of Rectangle
+        canvas.restore()
     }
 
     private fun drawDifferenceClippingExample(canvas: Canvas) {
