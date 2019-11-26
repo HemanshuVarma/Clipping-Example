@@ -182,6 +182,44 @@ class ClippedView @JvmOverloads constructor(
     }
 
     private fun drawIntersectionClippingExample(canvas: Canvas) {
+        //saving the canvas
+        canvas.save()
+
+        //Moving the coordinates
+        canvas.translate(columnTwo, rowTwo)
+
+        //Drawing the clipped Rectangle
+        canvas.clipRect(
+            clipRectLeft,
+            clipRectTop,
+            clipRectRight - smallRectOffset,
+            clipRectBottom - smallRectOffset
+        )
+
+        // The method clipRect(float, float, float, float, Region.Op
+        // .INTERSECT) was deprecated in API level 26. The recommended
+        // alternative method is clipRect(float, float, float, float), which
+        // is currently available in API level 26 and higher.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            canvas.clipRect(
+                clipRectLeft + smallRectOffset,
+                clipRectTop + smallRectOffset,
+                clipRectRight, clipRectBottom,
+                Region.Op.INTERSECT
+            )
+        } else {
+            canvas.clipRect(
+                clipRectLeft + smallRectOffset,
+                clipRectTop + smallRectOffset,
+                clipRectRight, clipRectBottom
+            )
+        }
+
+        //Draw the Clipped Rectangle with Properties defined in *drawClippedRectangle()*
+        drawClippedRectangle(canvas)
+
+        //Restore the state of Rectangle
+        canvas.restore()
     }
 
     private fun drawCombinedClippingExample(canvas: Canvas) {
