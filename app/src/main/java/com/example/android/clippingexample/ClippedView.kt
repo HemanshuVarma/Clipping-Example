@@ -46,6 +46,8 @@ class ClippedView @JvmOverloads constructor(
         clipRectBottom - rectInset
     )
 
+    private val rejectRow = rowFour + rectInset + 2 * clipRectBottom
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawBackAndUnclippedRectangle(canvas)
@@ -57,7 +59,7 @@ class ClippedView @JvmOverloads constructor(
         drawOutsideClippingExample(canvas)
         drawSkewedTextExample(canvas)
         drawTranslatedTextExample(canvas)
-        // drawQuickRejectExample(canvas)
+        drawQuickRejectExample(canvas)
     }
 
     //Function for Clipped Rectangle Properties
@@ -362,5 +364,48 @@ class ClippedView @JvmOverloads constructor(
     }
 
     private fun drawQuickRejectExample(canvas: Canvas) {
+        val inClipRectangle = RectF(
+            clipRectRight / 2,
+            clipRectBottom / 2,
+            clipRectRight * 2,
+            clipRectBottom * 2
+        )
+
+        val notInClipRectangle = RectF(
+            RectF(
+                clipRectRight + 1,
+                clipRectBottom + 1,
+                clipRectRight * 2,
+                clipRectBottom * 2
+            )
+        )
+
+        //Saving the canvas
+        canvas.save()
+
+        //Moving the coordinates
+        canvas.translate(columnOne, rejectRow)
+
+        //Drawing the clipped Rectangle
+        canvas.clipRect(
+            clipRectLeft, clipRectTop,
+            clipRectRight, clipRectBottom
+        )
+
+        //Pass in *inClipRectangle* or *notInClipRectangle*
+        if (canvas.quickReject(
+                inClipRectangle, Canvas.EdgeType.AA
+            )
+        ) {
+            canvas.drawColor(Color.WHITE)
+        } else {
+            canvas.drawColor(Color.BLACK)
+            canvas.drawRect(
+                inClipRectangle, paint
+            )
+        }
+
+        //Restore the state of Rectangle
+        canvas.restore()
     }
 }
