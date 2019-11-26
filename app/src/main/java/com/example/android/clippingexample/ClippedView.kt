@@ -313,6 +313,26 @@ class ClippedView @JvmOverloads constructor(
     }
 
     private fun drawTranslatedTextExample(canvas: Canvas) {
+        //Saving the canvas
+        canvas.save()
+
+        //Taking GREEN Color to draw text
+        paint.color = Color.GREEN
+
+        //Setting Text Alignment
+        paint.textAlign = Paint.Align.LEFT
+
+        //Moving the coordinates
+        canvas.translate(columnTwo, textRow)
+
+        // Draw text.
+        canvas.drawText(
+            context.getString(R.string.translated),
+            clipRectLeft, clipRectTop, paint
+        )
+
+        //Restore the state of Rectangle
+        canvas.restore()
     }
 
     private fun drawSkewedTextExample(canvas: Canvas) {
