@@ -153,10 +153,9 @@ class ClippedView @JvmOverloads constructor(
         canvas.translate(columnOne, rowTwo)
 
         // Clears any lines and curves from the path but unlike reset(),
-        // keeps the internal data structure for faster reuse.
         path.rewind()
 
-        //Drawing a circle
+        // keeps the internal data structure for faster reuse.
         path.addCircle(
             circleRadius,
             clipRectBottom - circleRadius,
@@ -223,6 +222,39 @@ class ClippedView @JvmOverloads constructor(
     }
 
     private fun drawCombinedClippingExample(canvas: Canvas) {
+        //saving the canvas
+        canvas.save()
+
+        //Moving the coordinates
+        canvas.translate(columnOne, rowThree)
+
+        // Clears any lines and curves from the path but unlike reset(),
+        path.rewind()
+
+        // keeps the internal data structure for faster reuse.
+        //A Circle
+        path.addCircle(
+            clipRectLeft + rectInset + circleRadius,
+            clipRectTop + circleRadius + rectInset,
+            circleRadius, Path.Direction.CCW
+        )
+
+        //A Rectangle
+        path.addRect(
+            clipRectRight / 2 - circleRadius,
+            clipRectTop + circleRadius + rectInset,
+            clipRectRight / 2 + circleRadius,
+            clipRectBottom - rectInset, Path.Direction.CCW
+        )
+
+        //Clipping the path
+        canvas.clipPath(path)
+
+        //Draw the Clipped Rectangle with Properties defined in *drawClippedRectangle()*
+        drawClippedRectangle(canvas)
+
+        //Restore the state of Rectangle
+        canvas.restore()
     }
 
     private fun drawRoundedRectangleClippingExample(canvas: Canvas) {
